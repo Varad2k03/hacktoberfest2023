@@ -1,0 +1,5 @@
+import turtle
+
+tim = turtle.Turtle()
+tim.shape("turtle")
+print(tim.shapesize())
