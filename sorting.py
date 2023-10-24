@@ -182,3 +182,112 @@ def cyclesort(arr):
 print(cyclesort([1,5,4,2,3]))
 
 
+# Heap Sort
+def heapify(arr, n, i):
+    # Find largest among root and children
+    largest = i
+    l = 2 * i + 1
+    r = 2 * i + 2
+
+    if l < n and arr[i] < arr[l]:
+        largest = l
+
+    if r < n and arr[largest] < arr[r]:
+        largest = r
+
+    # If root is not largest, swap with largest and continue heapifying
+    if largest != i:
+        arr[i], arr[largest] = arr[largest], arr[i]
+        heapify(arr, n, largest)
+
+
+def heapSort(arr):
+    n = len(arr)
+
+    # Build max heap
+    for i in range(n//2, -1, -1):
+        heapify(arr, n, i)
+
+    for i in range(n-1, 0, -1):
+        # Swap
+        arr[i], arr[0] = arr[0], arr[i]
+
+        # Heapify root element
+        heapify(arr, i, 0)
+
+
+arr = [1, 12, 9, 5, 6, 10]
+heapSort(arr)
+print("Heap Sort : ",arr)
+
+
+# Radix sort
+# Using counting sort to sort the elements in the basis of significant places
+def countingSort(array, place):
+    size = len(array)
+    output = [0] * size
+    count = [0] * 10
+
+    for i in range(0, size):
+        index = array[i] // place
+        count[index % 10] += 1
+
+    # Calculate cumulative count
+    for i in range(1, 10):
+        count[i] += count[i - 1]
+
+    # Place the elements in sorted order
+    i = size - 1
+    while i >= 0:
+        index = array[i] // place
+        output[count[index % 10] - 1] = array[i]
+        count[index % 10] -= 1
+        i -= 1
+
+    for i in range(0, size):
+        array[i] = output[i]
+
+
+# Main radix sort implementation
+def radixSort(array):
+    max_element = max(array)
+
+    # Apply counting sort to sort elements based on place value.
+    place = 1
+    while max_element // place > 0:
+        countingSort(array, place)
+        place *= 10
+
+
+data = [121, 432, 564, 23, 1, 45, 788]
+radixSort(data)
+print("Radix Sort : ",data)
+
+# Bucket Sort
+def bucketSort(array):
+    bucket = []
+
+    # Create empty buckets
+    for i in range(len(array)):
+        bucket.append([])
+
+    # Insert elements into their respective buckets
+    for j in array:
+        index_b = int(10 * j)
+        bucket[index_b].append(j)
+
+    # Sort the elements of each bucket
+    for i in range(len(array)):
+        bucket[i] = sorted(bucket[i])
+
+    # Get the sorted elements
+    k = 0
+    for i in range(len(array)):
+        for j in range(len(bucket[i])):
+            array[k] = bucket[i][j]
+            k += 1
+    return array
+
+
+array = [.42, .32, .33, .52, .37, .47, .51]
+print("Bucket Sort : ",bucketSort(array))
