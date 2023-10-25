@@ -291,3 +291,22 @@ def bucketSort(array):
 
 array = [.42, .32, .33, .52, .37, .47, .51]
 print("Bucket Sort : ",bucketSort(array))
+
+
+def shellSort(arr):
+    n = len(arr)
+    gap = n // 2
+
+    while gap > 0:
+        for i in range(gap, n):
+            temp = arr[i]
+            j = i
+            while j >= gap and arr[j - gap] > temp:
+                arr[j] = arr[j - gap]
+                j -= gap
+            arr[j] = temp
+        gap //= 2
+
+arr = [12, 34, 54, 2, 3]
+shellSort(arr)
+print("Sorted array is:", arr)
